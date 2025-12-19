@@ -2,18 +2,17 @@ package com.xiaoyudi.jc.dp.singleton;
 
 public class LazySingleton {
 
-    private static volatile LazySingleton instance = new LazySingleton();
+    private static volatile LazySingleton instance;
 
     private LazySingleton(){}
 
-    public static synchronized LazySingleton getInstance(){
+    public static LazySingleton getInstance(){
         if(instance == null){
-//            try {
-//                Thread.sleep(1000);
-//            } catch (InterruptedException e) {
-//                throw new RuntimeException(e);
-//            }
-            instance = getInstance();
+            synchronized (LazySingleton.class){
+                if(null == instance){
+                    instance = new LazySingleton();
+                }
+            }
         }
         return instance;
     }
